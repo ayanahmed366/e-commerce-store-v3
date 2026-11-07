@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#04f7f7">
+  <title>Rustam Super Mart</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="products.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="home.js" defer></script>
+</head>
+
+<body data-page="home" data-search-placeholder="Search collections...">
+  <!-- Header (nav bar) is added by script.js, same on every page -->
+  <div id="siteHeader"></div>
+
+  <main id="home">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">YOUR DAILY NEEDS</span>
+        <h1>Rustam <span>Super Mart</span></h1>
+        <p class="hero-points">Fresh Products <b>│</b> Better Quality <b>│</b> Great Prices</p>
+        <p class="hero-description">From daily essentials to your favorite snacks, we bring quality products to your
+          doorstep.</p>
+        <a class="black-btn shop-btn" href="#collections">Shop Now <span>→</span></a>
+      </div>
+      <div class="hero-art" aria-label="Grocery basket illustration" role="img">
+        <div class="sun-disc"></div>
+        <div class="basket">🧺<span>🥬 🍎 🥛 🥖</span><b>RS</b></div><span class="spark spark-one">✦</span><span
+          class="spark spark-two">✦</span>
+      </div>
+    </section>
+
+    <section class="collections-section wrap" id="collections">
+      <div class="section-heading">
+        <div>
+          <h2>Shop by Category</h2><span class="heading-underline"></span>
+        </div>
+        <div class="heading-side">
+          <p id="collectionCount">Explore our everyday essentials</p>
+        </div>
+      </div>
+      <!-- Collection cards are built by home.js from the catalog (managed in the owner panel) -->
+      <div class="collection-grid" id="collectionGrid" aria-live="polite"></div>
+      <p class="empty-state" id="emptyState" hidden>No collections match your search.</p>
+    </section>
+
+    <section class="about-strip wrap" id="about">
+      <div class="about-icon">RS</div>
+      <div>
+        <h2>Everyday shopping, made simple.</h2>
+        <p>Quality essentials, friendly service, and convenience for your home.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer is added by script.js, same on every page -->
+  <div id="siteFooter"></div>
+
+  <!-- Login / sign up form, Add to Cart form, cart and toast are added by script.js -->
+  <div id="siteModals"></div>
+</body>
+
+</html>

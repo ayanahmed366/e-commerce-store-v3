@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RS Model - Rustam Super Mart point of sale, billing and khata system">
+    <title>RS Model - Billing | Rustam Super Mart</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2304f7f7'/%3E%3Ctext x='50' y='68' font-size='56' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3ERS%3C/text%3E%3C/svg%3E">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        receipt: ['"Courier Prime"', '"Courier New"', 'monospace']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#e6fefe', 100: '#ccfdfd', 200: '#99fbfb', 300: '#66f9f9',
+                            400: '#04f7f7', 500: '#04f7f7', 600: '#04f7f7', 700: '#029e9e',
+                            800: '#027474', 900: '#024d4d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="page-billing bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="bg-brand-600 text-slate-900 sticky top-0 z-30 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+            <div class="flex items-center space-x-3 min-w-0">
+                <img src="logo.png" alt="Rustam Super Mart logo" class="w-10 h-10 rounded-lg shrink-0">
+                <div class="min-w-0">
+                    <div class="flex items-center space-x-2">
+                        <h1 class="font-bold text-sm sm:text-lg leading-tight tracking-wide text-black truncate"><i class="fa-solid fa-cart-shopping text-black mr-2" aria-hidden="true"></i>RUSTAM SUPER MART</h1>
+                        <span class="hidden sm:inline bg-black text-white text-[10px] uppercase font-mono px-2 py-0.5 rounded font-bold tracking-wider">RS Model</span>
+                    </div>
+                    <p class="hidden sm:block text-xs text-slate-800">Point of Sale &amp; Billing Management System</p>
+                </div>
+            </div>
+
+            <nav class="flex items-center space-x-1 sm:space-x-2" aria-label="Main">
+                <a href="index.html" aria-current="page" class="bg-black text-white px-3 py-2 rounded-lg text-sm font-semibold flex items-center">
+                    <i class="fa-solid fa-receipt sm:mr-2"></i><span class="hidden sm:inline">Billing</span>
+                </a>
+                <a href="khata.html" class="bg-black hover:bg-slate-800 text-slate-200 px-3 py-2 rounded-lg text-sm font-medium flex items-center border border-black transition">
+                    <i class="fa-solid fa-book sm:mr-2 text-brand-400"></i><span class="hidden sm:inline">Khata</span>
+                </a>
+                <button type="button" id="btnHistory" class="bg-black hover:bg-slate-800 text-slate-200 px-3 py-2 rounded-lg text-sm font-medium flex items-center transition border border-black">
+                    <i class="fa-solid fa-clock-rotate-left sm:mr-2 text-brand-500"></i>
+                    <span class="hidden sm:inline">Sales History</span>
+                    <span id="historyBadge" class="ml-2 bg-brand-600 text-slate-900 text-xs px-2 py-0.5 rounded-full hidden">0</span>
+                </button>
+                <button type="button" id="btnBackup" title="Backup download karein" aria-label="Backup" class="bg-black hover:bg-slate-800 text-slate-200 w-9 h-9 rounded-lg border border-black transition hidden sm:block">
+                    <i class="fa-solid fa-download"></i>
+                </button>
+                <button type="button" id="btnRestore" title="Backup restore karein" aria-label="Restore" class="bg-black hover:bg-slate-800 text-slate-200 w-9 h-9 rounded-lg border border-black transition hidden sm:block">
+                    <i class="fa-solid fa-upload"></i>
+                </button>
+                <input type="file" id="fileRestore" accept=".json,application/json" class="hidden">
+                <button type="button" id="btnSettings" title="Shop settings" aria-label="Settings" class="bg-black hover:bg-slate-800 text-slate-200 w-9 h-9 rounded-lg border border-black transition">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Notification Toast Container -->
+    <div id="toastContainer" class="fixed top-20 right-4 z-50 flex flex-col space-y-2 max-w-xs w-full pointer-events-none" aria-live="polite" role="status"></div>
+
+    <!-- Main Workspace -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- LEFT COLUMN: POS Control Form -->
+            <div class="lg:col-span-7 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+                    <h2 class="font-semibold text-slate-800 flex items-center text-base">
+                        <i class="fa-solid fa-receipt mr-2 text-brand-600"></i> Invoice Generator
+                    </h2>
+                    <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2.5 py-1 rounded-md font-medium">
+                        Invoice #: <span id="displayInvoiceNum" class="text-slate-900 font-bold">1001</span>
+                    </span>
+                </div>
+
+                <div class="p-4 sm:p-6 space-y-6">
+
+                    <!-- ACTION BAR -->
+                    <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 shadow-sm flex flex-wrap sm:flex-nowrap items-center justify-between gap-2">
+                        <span class="text-xs font-semibold text-slate-300 uppercase tracking-wider hidden sm:block">
+                            <i class="fa-solid fa-bolt text-brand-400 mr-1"></i> Actions:
+                        </span>
+                        <div class="grid grid-cols-3 gap-2 w-full sm:w-auto flex-grow">
+                            <button type="button" id="btnPrintSave" class="bg-brand-600 hover:bg-brand-700 text-slate-900 font-semibold py-2 px-3 rounded-lg text-xs transition shadow-sm flex items-center justify-center">
+                                <i class="fa-solid fa-print mr-1.5"></i> Print &amp; Save
+                            </button>
+                            <button type="button" id="btnOnlySave" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2 px-3 rounded-lg text-xs transition border border-slate-700 flex items-center justify-center">
+                                <i class="fa-solid fa-floppy-disk mr-1.5 text-brand-400"></i> Only Save
+                            </button>
+                            <button type="button" id="btnReprint" title="Aakhri save hua bill dobara print karein" class="bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-semibold py-2 px-3 rounded-lg text-xs transition border border-amber-500/40 flex items-center justify-center">
+                                <i class="fa-solid fa-copy mr-1.5"></i> Reprint Last
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AAKHRI SAVE HUA BILL: customer baad me bole "khate me daal do" -->
+                    <div id="lastBillBar" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2">
+                        <div class="text-xs text-amber-900 min-w-0">
+                            <span class="font-bold">Aakhri bill #<span id="lbNo"></span></span>
+                            <span id="lbInfo" class="block sm:inline sm:ml-1"></span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button type="button" id="btnLastToKhata" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-3 py-2 rounded-lg text-xs transition">
+                                <i class="fa-solid fa-book mr-1.5"></i> Add to Khata
+                            </button>
+                            <span id="lbInKhata" class="hidden text-xs font-bold text-brand-700"><i class="fa-solid fa-circle-check mr-1"></i><span id="lbKhataName"></span></span>
+                        </div>
+                    </div>
+
+                    <!-- Customer & Payment -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-brand-50/60 p-3 rounded-lg border border-brand-200">
+                            <label for="custName" class="block text-xs font-bold text-brand-900 uppercase tracking-wider mb-1">
+                                <i class="fa-solid fa-user-tag text-brand-600 mr-1.5"></i> Customer Name
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-brand-600">
+                                    <i class="fa-solid fa-user text-sm"></i>
+                                </span>
+                                <input type="text" id="custName" list="khataCustomers" value="Walk-in Customer" maxlength="60" autocomplete="off" class="w-full pl-9 pr-3 py-2 bg-white border border-brand-300 rounded-lg text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition shadow-sm" placeholder="Customer ka naam likhein">
+                                <datalist id="khataCustomers"></datalist>
+                            </div>
+                            <div id="khataInfo" class="hidden mt-2 text-[11px] leading-snug"></div>
+                            <label id="khataCheckWrap" class="hidden mt-2 flex items-start gap-2 text-[11px] text-slate-700 cursor-pointer">
+                                <input type="checkbox" id="khataCheck" class="mt-0.5 accent-brand-600">
+                                <span>Naya customer: iska <b>Khata (udhaar)</b> bana kar bill save karein</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label for="paymentMethod" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1 pt-1">Payment Method</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-solid fa-wallet text-sm"></i>
+                                </span>
+                                <select id="paymentMethod" class="w-full pl-9 pr-8 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition appearance-none">
+                                    <option value="Cash">Cash</option>
+                                    <option value="Card">Credit / Debit Card</option>
+                                    <option value="Digital Transfer">Digital Transfer (JazzCash / Easypaisa / Bank)</option>
+                                </select>
+                                <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fast Product Entry -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <p class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex flex-wrap items-center">
+                            <i class="fa-solid fa-cart-plus text-brand-600 mr-1.5"></i> Fast Product Entry
+                            <span class="ml-2 font-normal text-slate-400 text-[11px] normal-case">(Enter = agla box / add, ← → se fields badlein)</span>
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2">
+                            <div class="sm:col-span-6">
+                                <label for="entryItemName" class="sr-only">Item name</label>
+                                <input type="text" id="entryItemName" list="itemSuggestions" maxlength="80" autocomplete="off" placeholder="Item Name (e.g. Cooking Oil)" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-800 focus:ring-2 focus:ring-brand-500 outline-none">
+                                <datalist id="itemSuggestions"></datalist>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label for="entryQty" class="sr-only">Quantity</label>
+                                <input type="number" id="entryQty" value="1" min="0.001" step="any" inputmode="decimal" placeholder="Qty" class="w-full text-center px-2 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-800 focus:ring-2 focus:ring-brand-500 outline-none">
+                            </div>
+                            <div class="sm:col-span-3">
+                                <label for="entryPrice" class="sr-only">Price</label>
+                                <input type="number" id="entryPrice" min="0" step="0.01" inputmode="decimal" placeholder="Price" class="w-full text-right px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-800 focus:ring-2 focus:ring-brand-500 outline-none">
+                            </div>
+                            <div class="sm:col-span-1 flex items-center">
+                                <button type="button" id="btnAddItem" class="w-full h-full bg-brand-600 hover:bg-brand-700 text-slate-900 rounded-lg font-bold transition flex items-center justify-center p-2 shadow-sm" title="Add Item" aria-label="Add item">
+                                    <i class="fa-solid fa-plus text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Items Table -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold text-slate-700 uppercase tracking-wider">Invoice Line Items</p>
+                            <button type="button" id="btnClearItems" class="text-[11px] text-slate-400 hover:text-red-600 transition">
+                                <i class="fa-solid fa-eraser mr-1"></i>Saare items hatayen
+                            </button>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                            <div class="max-h-72 overflow-auto custom-scrollbar">
+                                <table class="w-full text-left text-xs border-collapse">
+                                    <thead class="bg-slate-100 text-slate-700 sticky top-0 z-10 font-bold border-b border-slate-200">
+                                        <tr>
+                                            <th class="py-2.5 px-3 w-12 text-center border-r border-slate-200">S.No</th>
+                                            <th class="py-2.5 px-3 border-r border-slate-200">Item Name</th>
+                                            <th class="py-2.5 px-2 w-20 text-center border-r border-slate-200">Qty</th>
+                                            <th class="py-2.5 px-2 w-24 text-right border-r border-slate-200">Price</th>
+                                            <th class="py-2.5 px-2 w-24 text-right border-r border-slate-200">Total</th>
+                                            <th class="py-2.5 px-2 w-10 text-center"><span class="sr-only">Remove</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="itemsContainer" class="divide-y divide-slate-100 bg-white"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Balances & Cash -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="oldBalance" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Old Balance <span id="oldBalanceNote" class="normal-case font-normal text-slate-400"></span></label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 font-medium text-xs">Rs.</span>
+                                    <input type="number" id="oldBalance" value="0.00" step="0.01" min="0" inputmode="decimal" class="w-full pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none transition read-only:bg-slate-100 read-only:text-slate-600">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="cashReceived" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Cash Received</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 font-medium text-xs">Rs.</span>
+                                    <input type="number" id="cashReceived" value="0.00" step="0.01" min="0" inputmode="decimal" class="w-full pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-brand-700 focus:ring-2 focus:ring-brand-500 outline-none transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 text-center">
+                            <div class="bg-white border border-slate-200 rounded-lg p-2">
+                                <div class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Bill Total</div>
+                                <div id="uiTotal" class="text-sm font-bold text-slate-800">0.00</div>
+                            </div>
+                            <div class="bg-white border border-slate-200 rounded-lg p-2">
+                                <div id="uiNetLabel" class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Net Balance</div>
+                                <div id="uiNet" class="text-sm font-bold text-slate-800">0.00</div>
+                            </div>
+                            <div class="bg-white border border-slate-200 rounded-lg p-2">
+                                <div class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Change Return</div>
+                                <div id="uiChange" class="text-sm font-bold text-slate-800">0.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Live Thermal Receipt Preview -->
+            <div class="lg:col-span-5 flex flex-col items-center">
+                <div class="w-full mb-2 flex items-center justify-between text-xs font-semibold text-slate-500 uppercase tracking-wider px-1">
+                    <span>Live Thermal Preview</span>
+                    <span class="flex items-center text-slate-400">
+                        <span class="inline-block w-2 h-2 rounded-full bg-brand-600 mr-1.5 animate-pulse"></span>
+                        80mm Thermal Paper
+                    </span>
+                </div>
+
+                <div class="w-full flex justify-center pb-4">
+                    <div id="printable-area" class="thermal-receipt p-4 rounded-t-sm text-slate-900 font-receipt text-xs leading-tight border-t-4 border-brand-600">
+
+                        <div id="recDup" class="hidden text-center font-bold text-[11px] border border-slate-900 py-0.5 mb-2">*** DUPLICATE / REPRINT ***</div>
+
+                        <div class="text-center space-y-1 mb-3">
+                            <h2 id="recShopName" class="text-lg font-bold uppercase tracking-wider text-slate-900">RUSTAM SUPER MART</h2>
+                            <p id="recAddress" class="text-[11px] text-slate-600"></p>
+                            <p id="recPhone" class="text-[11px] text-slate-600"></p>
+                            <div class="border-b border-dashed border-slate-400 my-2"></div>
+                        </div>
+
+                        <div class="space-y-1 mb-3">
+                            <div class="flex justify-between">
+                                <span>Date: <span id="recDate">--/--/----</span></span>
+                                <span>Time: <span id="recTime">--:--</span></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Invoice No: <span id="recInvoiceNo" class="font-bold">#1001</span></span>
+                            </div>
+                            <div class="bg-slate-100 p-1.5 rounded border border-slate-300 font-bold text-slate-900 mt-1">
+                                <span>Customer: <span id="recCustomer">Walk-in Customer</span></span>
+                                <span id="recKhataTag" class="hidden block text-[10px] font-normal text-slate-600">(Khata Account)</span>
+                            </div>
+                        </div>
+
+                        <div class="border-b border-slate-900 my-2"></div>
+
+                        <table class="w-full mb-2">
+                            <thead>
+                                <tr class="text-left border-b border-dashed border-slate-400">
+                                    <th class="pb-1 font-bold">Item</th>
+                                    <th class="pb-1 text-center font-bold">Qty</th>
+                                    <th class="pb-1 text-right font-bold">Price</th>
+                                    <th class="pb-1 text-right font-bold">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recItemsBody"></tbody>
+                        </table>
+
+                        <div class="border-b border-dashed border-slate-400 my-2"></div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between">
+                                <span># of Items:</span>
+                                <span id="recItemCount" class="font-bold">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Total Amount:</span>
+                                <span id="recTotalAmount">0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Old Balance:</span>
+                                <span id="recOldBalance">0.00</span>
+                            </div>
+
+                            <div class="border-b border-slate-900 my-1"></div>
+
+                            <div class="flex justify-between text-sm font-bold bg-slate-100 p-1 rounded">
+                                <span>Total Balance:</span>
+                                <span id="recTotalBalance">0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Cash Received:</span>
+                                <span id="recCashReceived">0.00</span>
+                            </div>
+                            <div id="recChangeRow" class="hidden flex justify-between">
+                                <span>Change Returned:</span>
+                                <span id="recChange">0.00</span>
+                            </div>
+
+                            <div class="border-b border-dashed border-slate-400 my-1"></div>
+
+                            <div class="flex justify-between font-bold">
+                                <span id="recNetLabel">Net Balance:</span>
+                                <span id="recNetBalance">0.00</span>
+                            </div>
+                            <div class="flex justify-between text-[11px] pt-1">
+                                <span>Payment Method:</span>
+                                <span id="recPaymentMethod" class="font-bold">Cash</span>
+                            </div>
+                        </div>
+
+                        <div class="border-b border-dashed border-slate-400 my-3"></div>
+                        <div class="text-center space-y-1">
+                            <p id="recFooter" class="font-bold text-[11px]"></p>
+                            <p class="uppercase text-[11px]">Thank you for shopping!</p>
+                            <div class="mt-3 text-[10px] text-slate-500">*** System Generated Receipt ***</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- INVOICE HISTORY MODAL -->
+    <div id="historyModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="historyTitle" aria-hidden="true">
+        <div class="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-receipt text-brand-500 text-lg"></i>
+                    <h3 id="historyTitle" class="font-bold text-lg">Saved Invoices History</h3>
+                </div>
+                <button type="button" data-close class="text-slate-400 hover:text-white transition" aria-label="Close history">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div class="p-4 bg-slate-50 border-b border-slate-200 space-y-3">
+                <div class="flex flex-col sm:flex-row gap-3 justify-between">
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                        </span>
+                        <label for="historySearch" class="sr-only">Search invoices</label>
+                        <input type="text" id="historySearch" placeholder="Invoice #, customer ya date (dd/mm/yyyy) se dhoondein..." class="w-full pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                    </div>
+                    <button type="button" id="btnClearHistory" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 font-semibold px-3 py-2 rounded-lg border border-red-200 transition flex items-center justify-center">
+                        <i class="fa-solid fa-trash-can mr-1.5"></i> Clear All History
+                    </button>
+                </div>
+                <p id="historySummary" class="text-xs text-slate-500"></p>
+            </div>
+
+            <div class="p-4 sm:p-6 overflow-auto flex-grow custom-scrollbar">
+                <div class="border border-slate-200 rounded-lg overflow-x-auto">
+                    <table class="w-full text-left text-xs min-w-[640px]">
+                        <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                            <tr>
+                                <th class="py-3 px-4">Inv #</th>
+                                <th class="py-3 px-4">Date &amp; Time</th>
+                                <th class="py-3 px-4">Customer</th>
+                                <th class="py-3 px-4 text-center">Items</th>
+                                <th class="py-3 px-4 text-right">Bill Total</th>
+                                <th class="py-3 px-4 text-right">Net Balance</th>
+                                <th class="py-3 px-4 text-center">Payment</th>
+                                <th class="py-3 px-4 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody" class="divide-y divide-slate-200"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-200 text-right">
+                <button type="button" data-close class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-4 py-2 rounded-lg text-xs transition">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD TO KHATA MODAL -->
+    <div id="khataModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="khataModalTitle" aria-hidden="true">
+        <form id="khataModalForm" class="bg-white rounded-xl shadow-xl max-w-md w-full overflow-hidden">
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <h3 id="khataModalTitle" class="font-bold text-lg"><i class="fa-solid fa-book text-brand-500 mr-2"></i>Bill Khata Me Daalein</h3>
+                <button type="button" data-close class="text-slate-400 hover:text-white" aria-label="Close"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div id="kmBill" class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs space-y-1"></div>
+                <div>
+                    <label for="kmName" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Customer Name</label>
+                    <input type="text" id="kmName" list="khataCustomers" maxlength="60" autocomplete="off" required placeholder="Jis ke khata me daalna hai" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-brand-500 outline-none">
+                    <p id="kmInfo" class="text-[11px] mt-2 min-h-[1rem]"></p>
+                </div>
+            </div>
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-200 flex justify-end gap-2">
+                <button type="button" data-close class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-4 py-2 rounded-lg text-xs">Cancel</button>
+                <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-slate-900 font-semibold px-4 py-2 rounded-lg text-xs">Khata Me Daalein</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

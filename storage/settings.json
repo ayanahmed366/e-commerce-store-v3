@@ -1,0 +1,24 @@
+{
+  "payments": {
+    "cod": {
+      "enabled": true
+    },
+    "easypaisa": {
+      "enabled": false,
+      "accountTitle": "",
+      "number": ""
+    },
+    "jazzcash": {
+      "enabled": false,
+      "accountTitle": "",
+      "number": ""
+    },
+    "bank": {
+      "enabled": false,
+      "bankName": "",
+      "accountTitle": "",
+      "number": ""
+    }
+  },
+  "deliveryNote": "deliver in 2-3 days"
+}

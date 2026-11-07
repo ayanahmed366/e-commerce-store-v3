@@ -1,0 +1,380 @@
+[
+  {
+    "id": "medicines",
+    "title": "Medicines",
+    "description": "Find everyday healthcare essentials and wellness products.",
+    "art": "medicine-art",
+    "emoji": "",
+    "image": "/uploads/cea78977eacce2be56e63f43.jpg",
+    "products": [
+      {
+        "id": "med-1",
+        "name": "Panadol",
+        "emoji": "🛒",
+        "image": "/uploads/66bbe26a18c9c640b95decce.jpg",
+        "price": 250,
+        "pieces": 10,
+        "boxesPerCarton": 12,
+        "cartonPrice": 2900,
+        "inStock": true
+      },
+      {
+        "id": "med-2",
+        "name": "Panado Extra",
+        "emoji": "🛒",
+        "image": "/uploads/217f35e4fd5d2ca4f3af8214.jpg",
+        "price": 1800,
+        "pieces": 12,
+        "boxesPerCarton": 6,
+        "cartonPrice": 10500,
+        "inStock": true
+      },
+      {
+        "id": "med-3",
+        "name": "Panadol CF",
+        "emoji": "🛒",
+        "image": "/uploads/6854bbd9757f8f717fd7ca02.jpg",
+        "price": 400,
+        "pieces": 12,
+        "boxesPerCarton": 20,
+        "cartonPrice": 7800,
+        "inStock": true
+      },
+      {
+        "id": "med-4",
+        "name": "Panadol SYP",
+        "emoji": "🍊",
+        "image": "/uploads/c3f4cf1e7d8bc651f6ec1553.jpg",
+        "price": 900,
+        "pieces": 10,
+        "boxesPerCarton": 10,
+        "cartonPrice": 8800,
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "id": "biscuits",
+    "title": "Biscuits",
+    "description": "Delicious biscuits for every mood and moment.",
+    "art": "biscuit-art",
+    "emoji": "🍪 🍪",
+    "image": "",
+    "products": [
+      {
+        "id": "bis-1",
+        "name": "Chocolate Cream Biscuits",
+        "emoji": "🍫",
+        "image": "",
+        "price": 480,
+        "pieces": 12,
+        "boxesPerCarton": 12,
+        "cartonPrice": 5600,
+        "inStock": true
+      },
+      {
+        "id": "bis-2",
+        "name": "Wheat Digestive Biscuits",
+        "emoji": "🍪",
+        "image": "",
+        "price": 520,
+        "pieces": 12,
+        "boxesPerCarton": 10,
+        "cartonPrice": 5000,
+        "inStock": true
+      },
+      {
+        "id": "bis-3",
+        "name": "Coconut Cookies",
+        "emoji": "🥥",
+        "image": "",
+        "price": 450,
+        "pieces": 12,
+        "boxesPerCarton": 12,
+        "cartonPrice": 5300,
+        "inStock": true
+      },
+      {
+        "id": "bis-4",
+        "name": "Salty Crackers",
+        "emoji": "🧂",
+        "image": "",
+        "price": 360,
+        "pieces": 12,
+        "boxesPerCarton": 15,
+        "cartonPrice": 5300,
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "id": "snacks",
+    "title": "Snacks & Nimko",
+    "description": "Crunchy, tasty snacks for every occasion.",
+    "art": "snacks-art",
+    "emoji": "🥨 🍿 🥔",
+    "image": "",
+    "products": [
+      {
+        "id": "snk-1",
+        "name": "Potato Chips",
+        "emoji": "🥔",
+        "image": "",
+        "price": 600,
+        "pieces": 12,
+        "boxesPerCarton": 10,
+        "cartonPrice": 5800,
+        "inStock": true
+      },
+      {
+        "id": "snk-2",
+        "name": "Nimko Mix",
+        "emoji": "🥨",
+        "image": "",
+        "price": 900,
+        "pieces": 12,
+        "boxesPerCarton": 8,
+        "cartonPrice": 7000,
+        "inStock": true
+      },
+      {
+        "id": "snk-3",
+        "name": "Popcorn",
+        "emoji": "🍿",
+        "image": "",
+        "price": 480,
+        "pieces": 12,
+        "boxesPerCarton": 12,
+        "cartonPrice": 5600,
+        "inStock": true
+      },
+      {
+        "id": "snk-4",
+        "name": "Masala Peanuts",
+        "emoji": "🥜",
+        "image": "",
+        "price": 700,
+        "pieces": 12,
+        "boxesPerCarton": 8,
+        "cartonPrice": 5500,
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "id": "wheat-flour",
+    "title": "Wheat Flour",
+    "description": "Quality atta for fresh and delicious everyday cooking.",
+    "art": "flour-art",
+    "emoji": "🌾 🥣",
+    "image": "",
+    "products": [
+      {
+        "id": "flr-1",
+        "name": "Wheat Flour (Atta) 5 kg",
+        "emoji": "🌾",
+        "image": "",
+        "price": 3000,
+        "pieces": 4,
+        "boxesPerCarton": 5,
+        "cartonPrice": 14500,
+        "inStock": true
+      },
+      {
+        "id": "flr-2",
+        "name": "Wheat Flour (Atta) 10 kg",
+        "emoji": "🌾",
+        "image": "",
+        "price": 3100,
+        "pieces": 2,
+        "boxesPerCarton": 5,
+        "cartonPrice": 15000,
+        "inStock": true
+      },
+      {
+        "id": "flr-3",
+        "name": "Fine Flour (Maida) 1 kg",
+        "emoji": "🥣",
+        "image": "",
+        "price": 2000,
+        "pieces": 10,
+        "boxesPerCarton": 5,
+        "cartonPrice": 9700,
+        "inStock": true
+      },
+      {
+        "id": "flr-4",
+        "name": "Semolina (Suji) 1 kg",
+        "emoji": "🍞",
+        "image": "",
+        "price": 2200,
+        "pieces": 10,
+        "boxesPerCarton": 5,
+        "cartonPrice": 10700,
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "id": "rice",
+    "title": "Rice",
+    "description": "Quality rice for healthy and delicious meals.",
+    "art": "rice-art",
+    "emoji": "🍚 🌾",
+    "image": "",
+    "products": [
+      {
+        "id": "ric-1",
+        "name": "Basmati Rice 5 kg",
+        "emoji": "🍚",
+        "image": "",
+        "price": 4800,
+        "pieces": 4,
+        "boxesPerCarton": 5,
+        "cartonPrice": 23500,
+        "inStock": true
+      },
+      {
+        "id": "ric-2",
+        "name": "Sella Rice 5 kg",
+        "emoji": "🍚",
+        "image": "",
+        "price": 4500,
+        "pieces": 4,
+        "boxesPerCarton": 5,
+        "cartonPrice": 22000,
+        "inStock": true
+      },
+      {
+        "id": "ric-3",
+        "name": "Super Kernel Basmati 1 kg",
+        "emoji": "🌾",
+        "image": "",
+        "price": 2600,
+        "pieces": 10,
+        "boxesPerCarton": 5,
+        "cartonPrice": 12700,
+        "inStock": true
+      },
+      {
+        "id": "ric-4",
+        "name": "Brown Rice 1 kg",
+        "emoji": "🍘",
+        "image": "",
+        "price": 2300,
+        "pieces": 10,
+        "boxesPerCarton": 5,
+        "cartonPrice": 11200,
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "id": "pulses",
+    "title": "Pulses & Daal",
+    "description": "Nutritious pantry staples for your everyday meals.",
+    "art": "pulses-art",
+    "emoji": "🫘 🥣 🫘",
+    "image": "",
+    "products": [
+      {
+        "id": "pls-1",
+        "name": "Masoor Daal 1 kg",
+        "emoji": "🫘",
+        "image": "",
+        "price": 2300,
+        "pieces": 10,
+        "boxesPerCarton": 5,
+        "cartonPrice": 11200,
+        "inStock": true
+      },
+      {
+        "id": "pls-2",
+        "name": "Moong Daal 1 kg",
+        "emoji": "🫘",
+        "image": "",
+        "price": 2500,
+        "pieces": 10,
+        "boxesPerCarton": 5,
+        "cartonPrice": 12200,
+        "inStock": true
+      },
+      {
+        "id": "pls-3",
+        "name": "Chana Daal 1 kg",
+        "emoji": "🥣",
+        "image": "",
+        "price": 2200,
+        "pieces": 10,
+        "boxesPerCarton": 5,
+        "cartonPrice": 10700,
+        "inStock": true
+      },
+      {
+        "id": "pls-4",
+        "name": "White Chickpeas 1 kg",
+        "emoji": "🫛",
+        "image": "",
+        "price": 2400,
+        "pieces": 10,
+        "boxesPerCarton": 5,
+        "cartonPrice": 11700,
+        "inStock": true
+      }
+    ]
+  },
+  {
+    "id": "candies",
+    "title": "Candies & Sweets",
+    "description": "A little sweetness in every day.",
+    "art": "candy-art",
+    "emoji": "🍭 🍬 🍭",
+    "image": "",
+    "products": [
+      {
+        "id": "can-1",
+        "name": "Fruit Candy",
+        "emoji": "🍬",
+        "image": "",
+        "price": 350,
+        "pieces": 24,
+        "boxesPerCarton": 12,
+        "cartonPrice": 4000,
+        "inStock": true
+      },
+      {
+        "id": "can-2",
+        "name": "Lollipops",
+        "emoji": "🍭",
+        "image": "",
+        "price": 420,
+        "pieces": 24,
+        "boxesPerCarton": 12,
+        "cartonPrice": 4800,
+        "inStock": true
+      },
+      {
+        "id": "can-3",
+        "name": "Chocolate Toffee",
+        "emoji": "🍫",
+        "image": "",
+        "price": 500,
+        "pieces": 24,
+        "boxesPerCarton": 10,
+        "cartonPrice": 4800,
+        "inStock": true
+      },
+      {
+        "id": "can-4",
+        "name": "Jelly Sweets",
+        "emoji": "🍡",
+        "image": "",
+        "price": 380,
+        "pieces": 24,
+        "boxesPerCarton": 12,
+        "cartonPrice": 4300,
+        "inStock": true
+      }
+    ]
+  }
+]

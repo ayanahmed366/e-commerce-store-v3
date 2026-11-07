@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#04f7f7">
+  <title>Collection | Rustam Super Mart</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="products.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="collection.js" defer></script>
+</head>
+
+<body data-page="collection" data-active-nav="collections" data-search-placeholder="Search products...">
+  <!-- Header (nav bar) is added by script.js, same on every page -->
+  <div id="siteHeader"></div>
+
+  <main>
+    <section class="collections-section wrap">
+      <a class="back-link" href="index.html#collections">← Back to all categories</a>
+      <div class="section-heading">
+        <div>
+          <h2 id="collectionTitle">Collection</h2><span class="heading-underline"></span>
+        </div>
+        <div class="heading-side">
+          <p id="productCount"></p>
+        </div>
+      </div>
+      <div class="collection-grid" id="productGrid" aria-live="polite"></div>
+      <p class="empty-state" id="emptyState" hidden></p>
+    </section>
+  </main>
+
+  <!-- Footer is added by script.js, same on every page -->
+  <div id="siteFooter"></div>
+
+  <!-- Login / sign up form, Add to Cart form, cart and toast are added by script.js -->
+  <div id="siteModals"></div>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "rustam-super-mart",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rustam Super Mart website with RS Online Orders",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.9"
+  }
+}

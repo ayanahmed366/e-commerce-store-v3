@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Management | Rustam Super Mart</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img class="brand-logo" src="logo.png" alt="Rustam Super Mart logo">
+        <div><strong><svg class="brand-cart" viewBox="0 0 576 512" aria-hidden="true"><path d="M0 24C0 10.7 10.7 0 24 0h45.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zm128 440a48 48 0 1 1 96 0 48 48 0 1 1-96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>Rustam</strong><small>SUPER MART</small></div>
+      </div>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-item active" data-view="dashboard"><span class="nav-icon">▦</span> Dashboard</button>
+      <button class="nav-item" data-view="inventory"><span class="nav-icon">▤</span> Inventory <span class="nav-count" id="navProductCount">0</span></button>
+      <button class="nav-item" data-view="transactions"><span class="nav-icon">↔</span> Stock activity</button>
+      <div class="sidebar-bottom">
+        <div class="help-card"><div class="help-icon">✦</div><strong>Keep stock in control</strong><p>Track products, spot low stock, and keep your shelves ready.</p></div>
+        <div class="profile"><div class="avatar">RA</div><div><strong>Store Admin</strong><small>Rustam Super Mart</small></div><span class="profile-dots">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+        <img class="top-logo" src="logo.png" alt="Rustam Super Mart logo">
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumbCurrent">Dashboard</strong></div>
+        <div class="top-actions"><span class="status-dot"></span><span class="status-text">Inventory workspace</span><button class="top-avatar" title="Store Admin">RA</button></div>
+      </header>
+
+      <section class="page" id="dashboardView">
+        <div class="page-heading">
+          <div><p class="eyebrow">OVERVIEW</p><h1>Inventory dashboard</h1><p class="subtitle">Here's what's happening in your store today.</p></div>
+          <button class="primary-btn" id="addProductTop"><span>＋</span> Add product</button>
+        </div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total products</span><span class="stat-icon cyan">▤</span></div><div class="stat-value" id="statProducts">0</div><div class="stat-foot"><span class="foot-dot cyan-dot"></span> Unique items in inventory</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Total units in stock</span><span class="stat-icon violet">▥</span></div><div class="stat-value" id="statUnits">0</div><div class="stat-foot"><span class="foot-dot violet-dot"></span> Across all products</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Stock value</span><span class="stat-icon green">₨</span></div><div class="stat-value" id="statValue">₨0</div><div class="stat-foot"><span class="foot-dot green-dot"></span> Based on purchase cost</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Low stock alerts</span><span class="stat-icon orange">⚠</span></div><div class="stat-value" id="statLow">0</div><div class="stat-foot"><span class="foot-dot orange-dot"></span> At or below reorder level</div></article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel inventory-panel">
+            <div class="panel-heading"><div><h2>Recent inventory</h2><p>Your latest product records</p></div><button class="text-btn" id="viewAllBtn">View all <span>→</span></button></div>
+            <div class="table-wrap"><table><thead><tr><th>PRODUCT</th><th>SKU</th><th>STOCK</th><th>UNIT COST</th><th>STATUS</th></tr></thead><tbody id="recentTable"></tbody></table></div>
+            <div class="empty-state hidden" id="recentEmpty"><div class="empty-icon">▤</div><strong>No products yet</strong><p>Add your first product to start tracking stock.</p><button class="primary-btn small" id="emptyAdd">＋ Add product</button></div>
+          </section>
+          <section class="panel alerts-panel">
+            <div class="panel-heading"><div><h2>Stock alerts</h2><p>Items that need attention</p></div><span class="alert-count" id="alertCount">0</span></div>
+            <div id="alertList" class="alert-list"></div>
+            <div class="empty-state compact" id="alertsEmpty"><div class="success-check">✓</div><strong>You're all caught up</strong><p>No low-stock items right now.</p></div>
+          </section>
+        </div>
+        <section class="panel activity-panel">
+          <div class="panel-heading"><div><h2>Recent stock activity</h2><p>Latest changes recorded in this browser</p></div><button class="text-btn" id="activityViewAll">View activity <span>→</span></button></div>
+          <div id="dashboardActivity" class="activity-list"></div>
+          <div class="empty-state compact hidden" id="activityEmpty"><p>No stock activity yet.</p></div>
+        </section>
+      </section>
+
+      <section class="page hidden" id="inventoryView">
+        <div class="page-heading"><div><p class="eyebrow">PRODUCT CATALOG</p><h1>Inventory</h1><p class="subtitle">Manage products, quantities, and reorder levels.</p></div><button class="primary-btn" id="addProductInventory"><span>＋</span> Add product</button></div>
+        <div class="inventory-toolbar"><div class="search-box"><span>⌕</span><input type="search" id="searchInput" placeholder="Search product, SKU or category..."></div><select id="categoryFilter" aria-label="Filter category"><option value="all">All categories</option></select><select id="stockFilter" aria-label="Filter stock"><option value="all">All stock levels</option><option value="healthy">In stock</option><option value="low">Low stock</option><option value="out">Out of stock</option></select></div>
+        <section class="panel full-table-panel"><div class="panel-heading"><div><h2>All products <span class="muted-count" id="tableCount">0</span></h2><p>Product list and stock status</p></div><button class="secondary-btn" id="exportBtn">↓ Export CSV</button></div>
+          <div class="table-wrap"><table><thead><tr><th>PRODUCT</th><th>SKU</th><th>CATEGORY</th><th>QTY</th><th>REORDER AT</th><th>UNIT COST</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="inventoryTable"></tbody></table></div>
+          <div class="empty-state hidden" id="inventoryEmpty"><div class="empty-icon">⌕</div><strong>No matching products</strong><p>Try changing your search or add a new product.</p></div>
+        </section>
+      </section>
+
+      <section class="page hidden" id="transactionsView">
+        <div class="page-heading"><div><p class="eyebrow">AUDIT TRAIL</p><h1>Stock activity</h1><p class="subtitle">A record of product additions and stock adjustments.</p></div><button class="secondary-btn" id="clearActivityBtn">Clear activity</button></div>
+        <section class="panel"><div class="panel-heading"><div><h2>Activity history</h2><p>Newest changes appear first</p></div><span class="muted-count" id="activityCount">0 records</span></div><div id="fullActivity" class="activity-list"></div><div class="empty-state compact hidden" id="fullActivityEmpty"><strong>No activity recorded</strong><p>Add products or adjust stock to see activity here.</p></div></section>
+      </section>
+      <footer class="footer"><span>© <span id="year"></span> Rustam Super Mart</span><span>Inventory Management System <i>•</i> Demo mode</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="productModal">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-heading"><div><p class="eyebrow">PRODUCT DETAILS</p><h2 id="modalTitle">Add new product</h2><p>Enter the details below to keep your inventory updated.</p></div><button class="close-btn" id="closeModal" aria-label="Close">×</button></div>
+      <form id="productForm">
+        <input type="hidden" id="productId">
+        <div class="form-grid">
+          <label class="field full"><span>Product name <b>*</b></span><input id="productName" required maxlength="80" placeholder="e.g. Everyday Milk 1L"></label>
+          <label class="field"><span>SKU / item code <b>*</b></span><input id="productSku" required maxlength="30" placeholder="e.g. DAIRY-001"></label>
+          <label class="field"><span>Category <b>*</b></span><input id="productCategory" required list="categorySuggestions" maxlength="40" placeholder="e.g. Dairy"><datalist id="categorySuggestions"><option value="Beverages"><option value="Biscuits & Snacks"><option value="Dairy"><option value="Grocery"><option value="Household"><option value="Personal Care"><option value="Frozen"></datalist></label>
+          <label class="field"><span>Quantity in stock <b>*</b></span><input id="productQty" type="number" min="0" step="1" required placeholder="0"></label>
+          <label class="field"><span>Reorder level <b>*</b></span><input id="productReorder" type="number" min="0" step="1" required value="5"></label>
+          <label class="field"><span>Unit purchase cost (PKR) <b>*</b></span><input id="productCost" type="number" min="0" step="0.01" required placeholder="0.00"></label>
+          <label class="field"><span>Unit selling price (PKR)</span><input id="productPrice" type="number" min="0" step="0.01" placeholder="0.00"></label>
+        </div>
+        <p class="form-error hidden" id="formError"></p>
+        <div class="modal-actions"><button type="button" class="secondary-btn" id="cancelModal">Cancel</button><button type="submit" class="primary-btn"><span>✓</span> Save product</button></div>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
